@@ -13,6 +13,10 @@
 
 [Git](https://git-scm.com/downloads)
 
+[Flyway](https://flywaydb.org/documentation/getstarted/firststeps/maven)
+
+[Lombok](https://projectlombok.org/setup/maven)
+
 ##脚本
 ```sql
 create table USER
