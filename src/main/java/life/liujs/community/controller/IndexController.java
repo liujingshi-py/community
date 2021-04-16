@@ -1,5 +1,6 @@
 package life.liujs.community.controller;
 
+import life.liujs.community.dto.PaginationDTO;
 import life.liujs.community.dto.QuestionDTO;
 import life.liujs.community.mapper.QuestionMapper;
 import life.liujs.community.mapper.UserMapper;
@@ -41,8 +42,8 @@ public class IndexController {
                 }
             }
         }
-        List<QuestionDTO> questionList = questionService.list(page,size);
-        model.addAttribute("questions", questionList);
+        PaginationDTO pagination = questionService.list(page,size);
+        model.addAttribute("pagination", pagination);
         return "index";
     }
 
