@@ -36,3 +36,7 @@ create table USER
 alter table USER
     add bio varchar(256) null ;
 ```
+```bash
+mvn flyway:migrate
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```

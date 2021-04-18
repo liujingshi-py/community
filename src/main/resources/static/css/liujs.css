@@ -1,10 +1,10 @@
-.main{
-    margin: 30px;
+body {
     background-color: #efefef;
 }
 
-.row{
-    background-color: #efefef;
+.community-main{
+    margin: 30px;
+    background-color: white;
 }
 
 .btn-publish{
@@ -24,4 +24,8 @@
 }
 .profile .section{
     margin-top: 15px;
+}
+
+.community-menu {
+    color: #999;
 }
