@@ -2,6 +2,9 @@ package life.liujs.community.service;
 
 import life.liujs.community.dto.PaginationDTO;
 import life.liujs.community.dto.QuestionDTO;
+import life.liujs.community.exception.CustomizeErrorCode;
+import life.liujs.community.exception.CustomizeException;
+import life.liujs.community.mapper.QuestionExtMapper;
 import life.liujs.community.mapper.QuestionMapper;
 import life.liujs.community.mapper.UserMapper;
 import life.liujs.community.model.Question;
@@ -26,6 +29,9 @@ public class QuestionService {
 
     @Autowired
     QuestionMapper questionMapper;
+
+    @Autowired
+    QuestionExtMapper questionExtMapper;
 
     @Autowired
     UserMapper userMapper;
@@ -108,6 +114,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -128,7 +137,17 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
